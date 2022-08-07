@@ -1,4 +1,4 @@
-# Heisenpay
+# MaybePay
 
 *Blockchain micropayments with no minimum size*
 
