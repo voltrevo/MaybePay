@@ -30,7 +30,7 @@ export default function Home() {
           </div>
         </div>
         <div className=' h-[16vw]' id="API2-widget">
-          <div className='text-[2vw] font-ProtoMono-Light '>User1 - API 2</div>
+          <div className='text-[2vw] font-ProtoMono-Light '>User1 - API 2 </div>
           <div className='h-full bg-gray-300 p-4 border-2 border-black ' id='API3-widget-container'></div>
         </div>
         <div className=' h-[16vw]' id="API3-widget">
@@ -97,7 +97,9 @@ export default function Home() {
             </div>
             <div className='h-[10vw] w-full'  id="Graph">
               <span>Graph</span>
-              <div className='bg-white h-full'></div>
+              <div className='bg-white h-full'>
+                
+              </div>
             </div>
           </div>
         </div>
