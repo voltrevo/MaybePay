@@ -3,9 +3,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  return (
-   <div className='text-[10vw] font-ProtoMono-LightShadow '>
-     MaybePay
-   </div>
-  )
+    return(
+        <div>Home</div>
+    )
 }
