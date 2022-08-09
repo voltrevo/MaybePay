@@ -1,8 +1,21 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
+import axios from "axios"
 
 export default function Home() {
+  const [weather, setWeather] = useState([])
+
+  useEffect(() => {
+    const getWeatherData = async () => {
+      const res = await axios.get("/api/weather")
+      setWeather(res.data.result)
+    }
+
+    getWeatherData()
+  }, [])
+
   return (
     <div className='w-[100vw] h-full p-2'>
     <Head>
@@ -14,19 +27,27 @@ export default function Home() {
     <div className='flex w-full h-[80vw] space-x-20 justify-center' id="container">
       <div className='w-[45vw] space-y-20' id="left-side">
         <div className='h-[21vw] w-full' id="API1-widget">
-          <div className='text-[2vw] font-ProtoMono-Light '>User1 - API 1 (Weather Widget)</div>
+          <div className='text-[2vw] font-ProtoMono-Light'>User1 - API 1 (Weather Widget)</div>
           <div className='h-full border-2 border-black' id="API1-widget-container">
-            <div className='h-[2vw] pl-2 pt-2 bg-black' id="weather-top-menu">
-              <div className='flex h-full bg-gray-800 ' id="tab">
-                <div className='rounded-t-lg bg-gray-600 w-[20%]' id="tab-1"></div>
-                <div className='bg-gray-800 w-[80%]' id="empty-space"></div>
+            <div className='h-[2vw] pt-2 bg-black' id="weather-top-menu">
+              <div className='flex h-full' id="tab">
+                <div className='rounded-t-lg w-[20%]' id="tab-1"></div>
+                <div className='w-[80%]' id="empty-space"></div>
               </div>
-              <div className='bg-gray-500 h-[2vw]' id="url-container">
-                <div id="url"></div>
+              <div className='bg-gray-500 h-[2vw] w-[100%]' id="url-container">
+                <div id="url" className="text-slate-50 pl-2">
+                  weather widget
+                </div>
                 <div id="extension"></div>
               </div>
             </div>
-            <div id="weather-contents"></div>
+            <div id="weather-contents" className="mt-10 flex w-[100%] justify-evenly items-center">
+              <img className="h-[200px] mr-10" src="https://commvault.com/wp-content/uploads/2021/06/cloud-scale03.svg" alt="Clouds" />
+              <div className="mr-10">
+                <p className="text-6xl font-ProtoMono-Light">{ weather.length !== 0 ? weather[0].type : "Loading..." }</p>
+                <p className="text-2xl font-ProtoMono-Light">in { weather.length !== 0 ? weather[0].city : "Loading..." }</p>
+              </div>
+            </div>
           </div>
         </div>
         <div className=' h-[16vw]' id="API2-widget">
