@@ -13,9 +13,9 @@ export default function Home() {
     </div>
     <div className='flex w-full h-[80vw] space-x-20 justify-center' id="container">
       <div className='w-[45vw] space-y-20' id="left-side">
-        <div className='h-[21vw] w-full' id="weather-widget">
+        <div className='h-[21vw] w-full' id="API1-widget">
           <div className='text-[2vw] font-ProtoMono-Light '>User1 - API 1 (Weather Widget)</div>
-          <div className='h-full border-2 border-black' id="weather-container">
+          <div className='h-full border-2 border-black' id="API1-widget-container">
             <div className='h-[2vw] pl-2 pt-2 bg-black' id="weather-top-menu">
               <div className='flex h-full bg-gray-800 ' id="tab">
                 <div className='rounded-t-lg bg-gray-600 w-[20%]' id="tab-1"></div>
@@ -29,15 +29,19 @@ export default function Home() {
             <div id="weather-contents"></div>
           </div>
         </div>
-        <div className=' h-[16vw]' id="-widget">
+        <div className=' h-[16vw]' id="API2-widget">
           <div className='text-[2vw] font-ProtoMono-Light '>User1 - API 2</div>
-          <div className='h-full bg-gray-300 p-4 border-2 border-black ' id='logs-container'></div>
+          <div className='h-full bg-gray-300 p-4 border-2 border-black ' id='API3-widget-container'></div>
+        </div>
+        <div className=' h-[16vw]' id="API3-widget">
+          <div className='text-[2vw] font-ProtoMono-Light '>User1 - API 3</div>
+          <div className='h-full bg-gray-300 p-4 border-2 border-black ' id='API3-widget-container'></div>
         </div>
       </div>
-      <div className='w-[26vw] h-[20vw]' id="right-side">
+      <div className='w-[26vw] h-auto' id="right-side">
         <div className='font-ProtoMono-SemiBold ' id='wallet'>
           <div className='text-[2vw] font-ProtoMono-Light'>User1 Wallet</div>
-          <div className='w-full h-[42vw] rounded-xl bg-blue-100  p-5' id="wallet-container">
+          <div className='w-full h-[55vw] rounded-xl bg-blue-100  p-5' id="wallet-container">
             <div className='bg-blue-500 rounded-xl pb-5' id="wallet-top">
               <div className='flex-col text-center justify-center px-5 pt-8 pb-8 space-y-4' id="wallet-address">
                 <div className='text-[1.2vw]'>Wallet Address</div>
@@ -91,7 +95,10 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div>Graph</div>
+            <div className='h-[10vw] w-full'  id="Graph">
+              <span>Graph</span>
+              <div className='bg-white h-full'></div>
+            </div>
           </div>
         </div>
         
