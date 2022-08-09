@@ -9,7 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "apexcharts": "^3.35.4",
+=======
+    "axios": "^0.27.2",
+>>>>>>> 485e1aa89bc66d33b631230bbed13c012010be0a
     "next": "12.2.4",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.0",
