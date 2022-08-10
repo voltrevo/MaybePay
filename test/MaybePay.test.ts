@@ -1,9 +1,6 @@
-/* eslint-disable camelcase */
-
 import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
-import { MaybePay__factory } from '../typechain-types';
 import * as MaybePayLib from '../MaybePayLib';
 
 describe('MaybePay', () => {
@@ -26,8 +23,8 @@ describe('MaybePay', () => {
 
         expect(actual).to.be.closeTo(expectedEthBalance, 0.01);
       },
-      consumerToMaybePay: MaybePay__factory.connect(maybePay.address, consumer),
-      serviceProviderToMaybePay: MaybePay__factory.connect(
+      consumerToMaybePay: MaybePayLib.connect(maybePay.address, consumer),
+      serviceProviderToMaybePay: MaybePayLib.connect(
         maybePay.address,
         serviceProvider,
       ),
