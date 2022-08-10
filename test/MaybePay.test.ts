@@ -57,7 +57,9 @@ describe('MaybePay', () => {
 
     const messageHash = ethers.utils.solidityKeccak256(['uint'], [37]);
 
-    const signatureBytes = await fx.consumer.signMessage(messageHash);
+    const signatureBytes = await fx.consumer.signMessage(
+      Buffer.from(messageHash.slice(2), 'hex'),
+    );
 
     const signature = {
       r: signatureBytes.slice(0, 66),
@@ -101,19 +103,26 @@ describe('MaybePay', () => {
       [serverSecret],
     );
 
+    const wrappedMessageHash = Buffer.from(
+      ethers.utils
+        .solidityKeccak256(
+          ['uint', 'address', 'uint', 'address', 'bytes32', 'uint', 'uint'],
+          [
+            ethers.provider.network.chainId,
+            fx.maybePay.address,
+            amount,
+            fx.serviceProvider.address,
+            serverSecretHash,
+            consumerMixer,
+            threshold,
+          ],
+        )
+        .slice(2),
+      'hex',
+    );
+
     const consumerSignatureBytes = await fx.consumer.signMessage(
-      ethers.utils.solidityKeccak256(
-        ['uint', 'address', 'uint', 'address', 'bytes32', 'uint', 'uint'],
-        [
-          ethers.provider.network.chainId,
-          fx.maybePay.address,
-          amount,
-          fx.serviceProvider.address,
-          serverSecretHash,
-          consumerMixer,
-          threshold,
-        ],
-      ),
+      wrappedMessageHash,
     );
 
     const consumerSignature = {
