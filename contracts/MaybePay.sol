@@ -35,29 +35,26 @@ contract MaybePay {
         Signature calldata consumerSignature
     ) public {
         bytes32 messageHash = keccak256(abi.encodePacked(
-            "\x19Ethereum Signed Message:\n32",
-            keccak256(abi.encodePacked(
-                // In the context of this chain,
-                block.chainid,
+            // In the context of this chain,
+            block.chainid,
 
-                // and this MaybePay deposit contract,
-                this,
+            // and this MaybePay deposit contract,
+            this,
 
-                // I (the consumer) authorize sending
-                amount,
+            // I (the consumer) authorize sending
+            amount,
 
-                // to (the service provider)
-                msg.sender,
+            // to (the service provider)
+            msg.sender,
 
-                // if the preimage of
-                keccak256(abi.encodePacked(serverSecret)),
+            // if the preimage of
+            keccak256(abi.encodePacked(serverSecret)),
 
-                // plus
-                consumerMixer,
+            // plus
+            consumerMixer,
 
-                // is less than
-                threshold
-            ))
+            // is less than
+            threshold
         ));
 
         require(
