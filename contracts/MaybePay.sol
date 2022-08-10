@@ -63,7 +63,7 @@ contract MaybePay {
         );
 
         require(
-            serverSecret + consumerMixer < threshold,
+            serverSecret + consumerMixer <= threshold,
             "Threshold not satisfied"
         );
 
