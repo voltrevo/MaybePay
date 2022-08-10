@@ -40,7 +40,7 @@ type Signature = {
   v: number;
 };
 
-export function MaybePaymentRequest(
+export function request(
   /**
    * ETH in wei units
    *
@@ -99,7 +99,7 @@ export async function sign(
   };
 }
 
-export async function MaybePayment(
+export async function payCustom(
   effectiveAmount: BigNumber,
   serviceProvider: string,
   serverSecretHash: string,
@@ -152,6 +152,24 @@ export async function MaybePayment(
   };
 }
 
+export function pay(
+  requestMessage: MaybePaymentRequest['message'],
+  amountIfTriggered: BigNumber,
+  consumerSigner: ethersTypes.Signer,
+  consumerMixer = BigNumber.from(ethers.utils.randomBytes(32)),
+) {
+  return payCustom(
+    BigNumber.from(requestMessage.effectiveAmount),
+    requestMessage.serviceProvider,
+    requestMessage.serverSecretHash,
+    amountIfTriggered,
+    requestMessage.chainId,
+    requestMessage.maybePay,
+    consumerSigner,
+    consumerMixer,
+  );
+}
+
 export function MaybePaymentMessageHash(
   chainId: number,
   maybePay: string,
@@ -175,7 +193,7 @@ export function MaybePaymentMessageHash(
   );
 }
 
-export async function checkMaybePayment(
+export async function check(
   maybePaymentRequest: MaybePaymentRequest,
   maybePayment: MaybePayment,
   maybePay: MaybePay,
