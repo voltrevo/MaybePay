@@ -7,7 +7,8 @@ import { MaybePay__factory } from '../typechain-types';
 
 describe('MaybePay', () => {
   async function Fixture() {
-    const [, consumer, serviceProvider] = await ethers.getSigners();
+    const [, consumer, serviceProvider, otherSigner] =
+      await ethers.getSigners();
 
     const MaybePay = await ethers.getContractFactory('MaybePay');
     const maybePay = await MaybePay.deploy();
@@ -15,6 +16,7 @@ describe('MaybePay', () => {
     return {
       consumer,
       serviceProvider,
+      otherSigner,
       maybePay,
       expectApproxEth: async (address: string, expectedEthBalance: number) => {
         const actual = Number(
@@ -150,5 +152,77 @@ describe('MaybePay', () => {
 
     // Up from 10000.0
     await fx.expectApproxEth(fx.serviceProvider.address, 10000.1);
+  });
+
+  it('should reject claim signed by a different unrelated signer', async () => {
+    const fx = await Fixture();
+
+    await (
+      await fx.consumer.sendTransaction({
+        to: fx.maybePay.address,
+        value: ethers.utils.parseEther('1.0'),
+      })
+    ).wait();
+
+    expect(
+      ethers.utils.formatEther(
+        await fx.consumerToMaybePay.balances(fx.consumer.address),
+      ),
+    ).to.eq('1.0');
+
+    const amount = ethers.utils.parseEther('0.1');
+    const serverSecret = 5;
+    const consumerMixer = 2;
+    const threshold = 10;
+
+    const serverSecretHash = ethers.utils.solidityKeccak256(
+      ['uint'],
+      [serverSecret],
+    );
+
+    const wrappedMessageHash = Buffer.from(
+      ethers.utils
+        .solidityKeccak256(
+          ['uint', 'address', 'uint', 'address', 'bytes32', 'uint', 'uint'],
+          [
+            ethers.provider.network.chainId,
+            fx.maybePay.address,
+            amount,
+            fx.serviceProvider.address,
+            serverSecretHash,
+            consumerMixer,
+            threshold,
+          ],
+        )
+        .slice(2),
+      'hex',
+    );
+
+    const consumerSignatureBytes = await fx.otherSigner.signMessage(
+      wrappedMessageHash,
+    );
+
+    const consumerSignature = {
+      r: consumerSignatureBytes.slice(0, 66),
+      s: `0x${consumerSignatureBytes.slice(66, 130)}`,
+      v: parseInt(consumerSignatureBytes.slice(130, 132), 16),
+    };
+
+    try {
+      await fx.serviceProviderToMaybePay.claim(
+        amount,
+        fx.consumer.address,
+        serverSecret,
+        consumerMixer,
+        threshold,
+        consumerSignature,
+      );
+
+      expect(true).to.eq(false, '.claim should have thrown');
+    } catch (error) {
+      expect((error as Error).message).to.contain(
+        'Signature verification failed',
+      );
+    }
   });
 });
