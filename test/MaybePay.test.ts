@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { BigNumber } from 'ethers';
 import { ethers } from 'hardhat';
 
 import * as MaybePayLib from '../MaybePayLib';
@@ -94,33 +95,17 @@ describe('MaybePay', () => {
       [serverSecret],
     );
 
-    const wrappedMessageHash = Buffer.from(
-      ethers.utils
-        .solidityKeccak256(
-          ['uint', 'address', 'uint', 'address', 'bytes32', 'uint', 'uint'],
-          [
-            ethers.provider.network.chainId,
-            fx.maybePay.address,
-            amount,
-            fx.serviceProvider.address,
-            serverSecretHash,
-            consumerMixer,
-            threshold,
-          ],
-        )
-        .slice(2),
-      'hex',
+    const messageHash = MaybePayLib.MaybePaymentMessageHash(
+      ethers.provider.network.chainId,
+      fx.maybePay.address,
+      amount,
+      fx.serviceProvider.address,
+      serverSecretHash,
+      BigNumber.from(consumerMixer),
+      BigNumber.from(threshold),
     );
 
-    const consumerSignatureBytes = await fx.consumer.signMessage(
-      wrappedMessageHash,
-    );
-
-    const consumerSignature = {
-      r: consumerSignatureBytes.slice(0, 66),
-      s: `0x${consumerSignatureBytes.slice(66, 130)}`,
-      v: parseInt(consumerSignatureBytes.slice(130, 132), 16),
-    };
+    const consumerSignature = await MaybePayLib.sign(messageHash, fx.consumer);
 
     await (
       await fx.serviceProviderToMaybePay.claim(
@@ -169,33 +154,20 @@ describe('MaybePay', () => {
       [serverSecret],
     );
 
-    const wrappedMessageHash = Buffer.from(
-      ethers.utils
-        .solidityKeccak256(
-          ['uint', 'address', 'uint', 'address', 'bytes32', 'uint', 'uint'],
-          [
-            ethers.provider.network.chainId,
-            fx.maybePay.address,
-            amount,
-            fx.serviceProvider.address,
-            serverSecretHash,
-            consumerMixer,
-            threshold,
-          ],
-        )
-        .slice(2),
-      'hex',
+    const messageHash = MaybePayLib.MaybePaymentMessageHash(
+      ethers.provider.network.chainId,
+      fx.maybePay.address,
+      amount,
+      fx.serviceProvider.address,
+      serverSecretHash,
+      BigNumber.from(consumerMixer),
+      BigNumber.from(threshold),
     );
 
-    const consumerSignatureBytes = await fx.otherSigner.signMessage(
-      wrappedMessageHash,
+    const consumerSignature = await MaybePayLib.sign(
+      messageHash,
+      fx.otherSigner,
     );
-
-    const consumerSignature = {
-      r: consumerSignatureBytes.slice(0, 66),
-      s: `0x${consumerSignatureBytes.slice(66, 130)}`,
-      v: parseInt(consumerSignatureBytes.slice(130, 132), 16),
-    };
 
     try {
       await fx.serviceProviderToMaybePay.claim(

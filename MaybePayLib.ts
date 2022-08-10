@@ -6,6 +6,8 @@ import { hexlify } from 'ethers/lib/utils';
 // eslint-disable-next-line camelcase
 import { MaybePay, MaybePay__factory } from './typechain-types';
 
+export { MaybePay };
+
 type MaybePaymentRequest = {
   type: 'maybe-payment-request';
   message: {
@@ -105,6 +107,7 @@ export async function MaybePayment(
   chainId: number,
   maybePay: string,
   consumerSigner: ethersTypes.Signer,
+  consumerMixer = BigNumber.from(ethers.utils.randomBytes(32)),
 ): Promise<MaybePayment> {
   if (amountIfTriggered.lt(effectiveAmount)) {
     throw new Error(
@@ -114,8 +117,6 @@ export async function MaybePayment(
       ].join(' '),
     );
   }
-
-  const consumerMixer = BigNumber.from(ethers.utils.randomBytes(32));
 
   let thresholdBigint =
     (2n ** 256n * effectiveAmount.toBigInt()) / amountIfTriggered.toBigInt();
@@ -217,6 +218,14 @@ export async function checkMaybePayment(
     effectiveAmountBigInt = 0n;
   }
 
+  if (
+    maybePayment.serverSecretHash !==
+    maybePaymentRequest.message.serverSecretHash
+  ) {
+    invalidReasons.push("serverSecretHash in payment doesn't match request");
+    effectiveAmountBigInt = 0n;
+  }
+
   const signedCorrectly = await maybePay.callStatic.verifySignature(
     maybePayment.consumer,
     MaybePaymentMessageHash(
@@ -269,6 +278,21 @@ export function connect(
 ) {
   // eslint-disable-next-line camelcase
   return MaybePay__factory.connect(address, signerOrProvider);
+}
+
+export function claim(
+  maybePaymentRequest: MaybePaymentRequest,
+  maybePayment: MaybePayment,
+  maybePay: MaybePay,
+) {
+  return maybePay.claim(
+    maybePayment.amountIfTriggered,
+    maybePayment.consumer,
+    maybePaymentRequest.serverSecret,
+    maybePayment.consumerMixer,
+    maybePayment.threshold,
+    maybePayment.consumerSignature,
+  );
 }
 
 const uint256Modulus = 2n ** 256n;
