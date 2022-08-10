@@ -16,16 +16,16 @@ export default function Home() {
             <div className='w-5/6 h-full ' id="owner-api-list">
             <div className='text-[1.4vw] font-bold mb-4 '>API List</div>
             <div className='grid grid-rows-4 rounded-lg bg-blue-100 w-full h-full gap-3'>
-                <div className='hover:border-gray-400  hover:border-2 rounded-xl ml-5 mr-20 pl-5  p-3'>
+                <div className=' rounded-xl ml-5 mr-20 pl-5  p-3'>
                     <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api">API 1</div>
                 </div>
-                 <div className='hover:border-gray-400  hover:border-2 rounded-xl ml-5 mr-20 pl-5  p-3'>
+                 <div className=' rounded-xl ml-5 mr-20 pl-5  p-3'>
                     <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api">API 2</div>
                 </div>
                 <div className='hover:border-gray-400  hover:border-2 rounded-xl ml-5 mr-20 pl-5  p-3'>
                     <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api-edit">API 3</div>
                 </div>
-                <div className='hover:border-gray-400  hover:border-2 rounded-xl ml-5 mr-20 pl-5  p-3'>
+                <div className=' rounded-xl ml-5 mr-20 pl-5  p-3'>
                     <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api">API 4</div>
                 </div>
             </div>
