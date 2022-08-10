@@ -120,7 +120,7 @@ export default function Home() {
                 <span className='block'>Amount to MaybePay Deposit</span>
                 <div className='flex space-x-3'>
                   <input className='w-full rounded-md border-blue-200 border-2 p-1'></input>
-                  <button className='rounded-lg text-sm bg-blue-300 p-2'>Deposit</button>
+                  <button className='rounded-lg text-sm bg-blue-300 p-2 hover:bg-blue-600 hover:text-white'>Deposit</button>
                 </div>
               </div>
               <div class="flex items-center py-2">
