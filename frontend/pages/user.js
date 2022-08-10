@@ -3,10 +3,22 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import axios from "axios"
+import { ethers } from "ethers";
+
+const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com');
+
+const wallet = new ethers.Wallet(
+  // CAUTION: This is a private key. It's ok because it's just a testnet wallet.
+  // Publishing a private key with real funds attached will cause the funds inside
+  // to be drained by hackers.
+  '203dfb3d0be339976af754905c0507029d92afc5eb19751c9f6e4bfa6a8dcefd',
+  provider,
+);
 
 export default function Home() {
   const [weather, setWeather] = useState([])
   const [news, setNews] = useState([])
+  const [balance, setBalance] = useState();
 
   useEffect(() => {
     const getWeatherData = async () => {
@@ -26,6 +38,11 @@ export default function Home() {
 
     getWeatherData()
     getNewsData()
+
+    provider.getBalance(wallet.address).then(async balance => {
+      const ethBalance = Number(ethers.utils.formatEther(await provider.getBalance(wallet.address)));
+      setBalance(ethBalance);
+    });
   }, [])
 
   return (
@@ -98,14 +115,14 @@ export default function Home() {
                 <div className='flex-col text-center justify-center px-5 pt-8 pb-8 space-y-4' id="wallet-address">
                   <div className='text-[1.1.6vw]'>Wallet Address</div>
                   <div className='text-[1vw]'>- Account 1 -</div>
-                  <div className='text-[0.7vw]'>0xb89C33bE71c2aAd77d6712b1AD47274aD9fb7dcb</div>
+                  <div className='text-[0.7vw]'>{wallet.address}</div>
                 </div>
                 <div id="wallet-balance" className='flex rounded-xl mx-5 bg-gray-50 justify-around  items-center py-5 px-2 space-x-5'>
                   <div className='flex-col justify-center items-center'>
                     <div>
                       <div className=' text-center'>Wallet</div><div className=' text-center'>Current Balance</div>
                     </div>
-                    <div className='text-center text-[1.3vw] pt-2'>$ 320</div>
+                    <div className='text-center text-[1.3vw] pt-2'>$ {balance && (1682 * balance).toFixed(2)}</div>
                   </div>
                   <div className='border-2 border-gray-300  h-[4vw] w-1' id="divider"></div>
                   <div className=' flex-col justify-center items-center'>
