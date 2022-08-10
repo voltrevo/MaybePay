@@ -11,6 +11,8 @@
   "dependencies": {
     "apexcharts": "^3.35.4",
     "axios": "^0.27.2",
+    "bignumber": "^1.1.0",
+    "bignumber.js": "^9.1.0",
     "ethers": "^5.6.9",
     "next": "12.2.4",
     "react": "18.2.0",
@@ -23,5 +25,19 @@
     "eslint-config-next": "12.2.4",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import axios from "axios"
 import { ethers } from "ethers";
+import { request, pay } from "../utils/index"
 
 const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com');
 
@@ -18,10 +19,32 @@ const wallet = new ethers.Wallet(
 export default function Home() {
   const [weather, setWeather] = useState([])
   const [news, setNews] = useState([])
-  const [balance, setBalance] = useState();
+  const [balance, setBalance] = useState()
 
   useEffect(() => {
     const getWeatherData = async () => {
+      const parsedEth = ethers.utils.parseEther('0.000001')
+      const paymentRequest = request(
+        parsedEth,
+        wallet.address,
+        80001,
+        "0x78E0B95781634F6E993B088019FB761ed7Dc4593",
+        ethers.BigNumber.from(5),
+      )
+
+      const payment = await pay(
+        paymentRequest.message,
+        ethers.utils.parseEther('0.1'),
+        wallet,
+        ethers.BigNumber.from(2),
+      )
+
+      const _res = await axios.post("/api/to_pay_or_not_to_pay", {
+        payment,
+        paymentRequest
+      })
+      console.log(_res.data)
+
       const res = await axios.get("/api/weather")
       setWeather(res.data.result)
     }
@@ -49,7 +72,7 @@ export default function Home() {
   const deposit = () => {
     const tx = {
       from: wallet.address,
-      to: "0x5950C2098eb3DBACFe932fd07f4fbD2356375562",
+      to: "0x78E0B95781634F6E993B088019FB761ed7Dc4593",
       value: ethers.utils.parseEther("0.1"),
       nonce: provider.getTransactionCount(wallet.address, "latest"),
       gasLimit: ethers.utils.hexlify("0x100000"), // 100000
