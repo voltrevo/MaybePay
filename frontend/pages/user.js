@@ -115,7 +115,7 @@ export default function Home() {
                 <div className='flex-col text-center justify-center px-5 pt-8 pb-8 space-y-4' id="wallet-address">
                   <div className='text-[1.2vw]'>Wallet Address</div>
                   <div className='text-[1vw]'>- Account 1 -</div>
-                  <div className='text-[0.7vw]'>0xc0897bd4d84322a62b39FA1c51b241659C7E37D1</div>
+                  <div className='text-[0.7vw]'>{wallet.address}</div>
                 </div>
                 <div id="wallet-balance" className='flex rounded-xl mx-5 bg-gray-50 justify-around  items-center py-5 px-2 space-x-5'>
                   <div className='flex-col justify-center items-center'>
