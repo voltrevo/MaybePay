@@ -237,6 +237,13 @@ export async function check(
   }
 
   if (
+    maybePayment.serviceProvider !== maybePaymentRequest.message.serviceProvider
+  ) {
+    invalidReasons.push('Signed payment does not go to the correct address');
+    effectiveAmountBigInt = 0n;
+  }
+
+  if (
     maybePayment.serverSecretHash !==
     maybePaymentRequest.message.serverSecretHash
   ) {
