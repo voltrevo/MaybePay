@@ -33,20 +33,20 @@ export default function Home() {
       <Head>
         <title>MaybePay</title>
       </Head>
-      <div className='text-[5vw] font-ProtoMono-Light my-4  text-center'>
+      <div className='text-[4vw] font-ProtoMono-Light mb-10 text-center'>
         End-User Interface
       </div>
       <div className='flex w-full h-[80vw] space-x-20 justify-center' id="container">
         <div className='w-[45vw] space-y-20' id="left-side">
           <div className='h-[21vw] w-full' id="API1-widget">
-            <div className='text-[2vw] font-ProtoMono-Light'>User1 - API 1 (Weather Widget)</div>
+            <div className='text-[1.6vw] font-ProtoMono-Light'>User1 - API 1 (Weather Widget)</div>
             <div className='h-full border-2 border-black' id="API1-widget-container">
-              <div className='h-[2vw] pt-2 bg-black' id="weather-top-menu">
+              <div className='h-[1.6vw] pt-2 bg-black' id="weather-top-menu">
                 <div className='flex h-full' id="tab">
                   <div className='rounded-t-lg w-[20%]' id="tab-1"></div>
                   <div className='w-[80%]' id="empty-space"></div>
                 </div>
-                <div className='bg-gray-500 h-[2vw] w-[100%]' id="url-container">
+                <div className='bg-gray-500 h-[1.6vw] w-[100%]' id="url-container">
                   <div id="url" className="text-slate-50 pl-2">
                     weather widget
                   </div>
@@ -63,14 +63,14 @@ export default function Home() {
             </div>
           </div>
           <div className=' h-[16vw]' id="API2-widget">
-            <div className='text-[2vw] font-ProtoMono-Light '>User1 - API 2 (News Widget)</div>
+            <div className='text-[1.6vw] font-ProtoMono-Light '>User1 - API 2 (News Widget)</div>
             <div className='h-full bg-gray-300 border-2 border-black' id='API3-widget-container'>
-              <div className='h-[2vw] pt-2 bg-black' id="weather-top-menu">
+              <div className='h-[1.6vw] pt-2 bg-black' id="weather-top-menu">
                 <div className='flex h-full' id="tab">
                   <div className='rounded-t-lg w-[20%]' id="tab-1"></div>
                   <div className='w-[80%]' id="empty-space"></div>
                 </div>
-                <div className='bg-gray-500 h-[2vw] w-[100%]' id="url-container">
+                <div className='bg-gray-500 h-[1.6vw] w-[100%]' id="url-container">
                   <div id="url" className="text-slate-50 pl-2">
                     news widget
                   </div>
@@ -86,17 +86,17 @@ export default function Home() {
             </div>
           </div>
           <div className=' h-[16vw]' id="API3-widget">
-            <div className='text-[2vw] font-ProtoMono-Light '>User1 - API 3</div>
+            <div className='text-[1.6vw] font-ProtoMono-Light '>User1 - API 3</div>
             <div className='h-full bg-gray-300 p-4 border-2 border-black ' id='API3-widget-container'></div>
           </div>
         </div>
         <div className='w-[26vw] h-auto' id="right-side">
           <div className='font-ProtoMono-SemiBold ' id='wallet'>
-            <div className='text-[2vw] font-ProtoMono-Light'>User1 Wallet</div>
+            <div className='text-[1.6vw] font-ProtoMono-Light'>User1 Wallet</div>
             <div className='w-full h-[55vw] rounded-xl bg-blue-100  p-5' id="wallet-container">
               <div className='bg-blue-500 rounded-xl pb-5' id="wallet-top">
                 <div className='flex-col text-center justify-center px-5 pt-8 pb-8 space-y-4' id="wallet-address">
-                  <div className='text-[1.2vw]'>Wallet Address</div>
+                  <div className='text-[1.1.6vw]'>Wallet Address</div>
                   <div className='text-[1vw]'>- Account 1 -</div>
                   <div className='text-[0.7vw]'>0xb89C33bE71c2aAd77d6712b1AD47274aD9fb7dcb</div>
                 </div>

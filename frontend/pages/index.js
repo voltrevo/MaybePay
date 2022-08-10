@@ -8,18 +8,26 @@ export default function Home() {
       <Head>
         <title>MaybePay</title>
       </Head>
-      <div className='text-[5vw] font-ProtoMono-Light text-center'>
+      <div className='text-[4vw] font-ProtoMono-Light text-center'>
         Owner Setting Page   
       </div>
       <div className='flex-col space-y-16  w-auto text-[2vw] font-ProtoMono-Light ' id="owner-container">
         <div className='w-full h-[20vw] flex space-x-7' id="owner-top">
             <div className='w-5/6 h-full ' id="owner-api-list">
             <div className='text-[1.4vw] font-bold mb-4 '>API List</div>
-            <div className='grid grid-rows-4 rounded-lg bg-blue-100 w-full h-full p-10 gap-7'>
-                <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw]' id="api">API 1</div>
-                <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw]' id="api">API 2</div>
-                <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api-edit">API 3</div>
-                <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw]' id="api">API 4</div>
+            <div className='grid grid-rows-4 rounded-lg bg-blue-100 w-full h-full gap-3'>
+                <div className='hover:border-gray-400  hover:border-2 rounded-xl ml-5 mr-20 pl-5  p-3'>
+                    <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api">API 1</div>
+                </div>
+                 <div className='hover:border-gray-400  hover:border-2 rounded-xl ml-5 mr-20 pl-5  p-3'>
+                    <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api">API 2</div>
+                </div>
+                <div className='hover:border-gray-400  hover:border-2 rounded-xl ml-5 mr-20 pl-5  p-3'>
+                    <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api-edit">API 3</div>
+                </div>
+                <div className='hover:border-gray-400  hover:border-2 rounded-xl ml-5 mr-20 pl-5  p-3'>
+                    <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api">API 4</div>
+                </div>
             </div>
 
             </div>
