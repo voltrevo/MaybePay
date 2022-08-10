@@ -4,6 +4,12 @@ pragma solidity ^0.8.9;
 // Import this file to use console.log
 import "hardhat/console.sol";
 
+struct Signature {
+    bytes32 r;
+    bytes32 s;
+    uint8 v;
+}
+
 contract MaybePay {
     mapping(address => uint) public balances;
     mapping(bytes32 => bool) public claimsProcessed;
@@ -26,7 +32,7 @@ contract MaybePay {
         uint serverSecret,
         uint consumerMixer,
         uint threshold,
-        bytes calldata consumerSignature
+        Signature calldata consumerSignature
     ) public {
         bytes32 messageHash = keccak256(abi.encodePacked(
             "\x19Ethereum Signed Message:\n32",
@@ -86,20 +92,20 @@ contract MaybePay {
     function verifySignature(
         address signer,
         bytes32 messageHash,
-        bytes memory signature
-    ) internal pure returns (bool) {
-        require(signature.length == 65);
+        Signature calldata signature
+    ) public pure returns (bool) {
+        bytes32 wrappedMessageHash = keccak256(abi.encodePacked(
+            "\x19Ethereum Signed Message:\n32",
+            messageHash
+        ));
 
-        bytes32 r;
-        bytes32 s;
-        uint8 v;
+        address recovered = ecrecover(
+            wrappedMessageHash,
+            signature.v,
+            signature.r,
+            signature.s
+        );
 
-        assembly {
-            r := mload(add(signature, 32))
-            s := mload(add(signature, 64))
-            v := byte(0, mload(add(signature, 96)))
-        }
-
-        return ecrecover(messageHash, v, r, s) == signer;
+        return recovered == signer;
     }
 }

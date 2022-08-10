@@ -52,6 +52,28 @@ describe('MaybePay', () => {
     await fx.expectApproxEth(fx.consumer.address, 10000);
   });
 
+  it('should verify valid signature', async () => {
+    const fx = await Fixture();
+
+    const messageHash = ethers.utils.solidityKeccak256(['uint'], [37]);
+
+    const signatureBytes = await fx.consumer.signMessage(messageHash);
+
+    const signature = {
+      r: signatureBytes.slice(0, 66),
+      s: `0x${signatureBytes.slice(66, 130)}`,
+      v: parseInt(signatureBytes.slice(130, 132), 16),
+    };
+
+    const valid = await fx.consumerToMaybePay.callStatic.verifySignature(
+      fx.consumer.address,
+      messageHash,
+      signature,
+    );
+
+    expect(valid).to.eq(true);
+  });
+
   // eslint-disable-next-line max-len
   it("should allow service provider to claim consumer's funds with correct message", async () => {
     const fx = await Fixture();
@@ -79,9 +101,9 @@ describe('MaybePay', () => {
       [serverSecret],
     );
 
-    const consumerSignature = await fx.consumer.signMessage(
+    const consumerSignatureBytes = await fx.consumer.signMessage(
       ethers.utils.solidityKeccak256(
-        ['uint', 'address', 'uint', 'address', 'uint', 'uint', 'uint'],
+        ['uint', 'address', 'uint', 'address', 'bytes32', 'uint', 'uint'],
         [
           ethers.provider.network.chainId,
           fx.maybePay.address,
@@ -93,6 +115,12 @@ describe('MaybePay', () => {
         ],
       ),
     );
+
+    const consumerSignature = {
+      r: consumerSignatureBytes.slice(0, 66),
+      s: `0x${consumerSignatureBytes.slice(66, 130)}`,
+      v: parseInt(consumerSignatureBytes.slice(130, 132), 16),
+    };
 
     await (
       await fx.serviceProviderToMaybePay.claim(
