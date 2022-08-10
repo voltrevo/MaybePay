@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { ethers } from 'hardhat';
 
 import { MaybePay__factory } from '../typechain-types';
+import * as MaybePayLib from '../MaybePayLib';
 
 describe('MaybePay', () => {
   async function Fixture() {
@@ -58,16 +59,7 @@ describe('MaybePay', () => {
     const fx = await Fixture();
 
     const messageHash = ethers.utils.solidityKeccak256(['uint'], [37]);
-
-    const signatureBytes = await fx.consumer.signMessage(
-      Buffer.from(messageHash.slice(2), 'hex'),
-    );
-
-    const signature = {
-      r: signatureBytes.slice(0, 66),
-      s: `0x${signatureBytes.slice(66, 130)}`,
-      v: parseInt(signatureBytes.slice(130, 132), 16),
-    };
+    const signature = await MaybePayLib.sign(messageHash, fx.consumer);
 
     const valid = await fx.consumerToMaybePay.callStatic.verifySignature(
       fx.consumer.address,

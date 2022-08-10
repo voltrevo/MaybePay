@@ -87,7 +87,7 @@ export async function sign(
   signer: ethersTypes.Signer,
 ): Promise<Signature> {
   const signatureBytes = await signer.signMessage(
-    Buffer.from(messageHash.slice(2)),
+    Buffer.from(messageHash.slice(2), 'hex'),
   );
 
   return {
