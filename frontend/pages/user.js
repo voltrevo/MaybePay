@@ -40,10 +40,28 @@ export default function Home() {
     getNewsData()
 
     provider.getBalance(wallet.address).then(async balance => {
+      console.log(wallet.address)
       const ethBalance = Number(ethers.utils.formatEther(await provider.getBalance(wallet.address)));
       setBalance(ethBalance);
-    });
+    })
   }, [])
+
+  const deposit = () => {
+    const tx = {
+      from: wallet.address,
+      to: "0x5950C2098eb3DBACFe932fd07f4fbD2356375562",
+      value: ethers.utils.parseEther("0.1"),
+      nonce: provider.getTransactionCount(wallet.address, "latest"),
+      gasLimit: ethers.utils.hexlify("0x100000"), // 100000
+      gasPrice: provider.getGasPrice(),
+    }
+
+    let walletSigner = wallet.connect(provider)
+    walletSigner.sendTransaction(tx).then((transaction) => {
+      console.dir(transaction)
+      alert("Send finished!")
+    })
+  }
 
   return (
     <div className='w-[100vw] h-full p-2'>
@@ -122,7 +140,7 @@ export default function Home() {
                     <div>
                       <div className=' text-center'>Wallet</div><div className=' text-center'>Current Balance</div>
                     </div>
-                    <div className='text-center text-[1.3vw] pt-2'>$ {balance && (1682 * balance).toFixed(2)}</div>
+                    <div className='text-center text-[1.3vw] pt-2'>$ {balance && (0.8887 * balance).toFixed(2)}</div>
                   </div>
                   <div className='border-2 border-gray-300  h-[4vw] w-1' id="divider"></div>
                   <div className=' flex-col justify-center items-center'>
@@ -137,7 +155,7 @@ export default function Home() {
                 <span className='block'>Amount to MaybePay Deposit</span>
                 <div className='flex space-x-3'>
                   <input className='w-full rounded-md border-blue-200 border-2 p-1'></input>
-                  <button className='rounded-lg text-sm bg-blue-300 p-2 hover:bg-blue-600 hover:text-white'>Deposit</button>
+                  <button onClick={() => deposit()} className='rounded-lg text-sm bg-blue-300 p-2 hover:bg-blue-600 hover:text-white'>Deposit</button>
                 </div>
               </div>
               <div class="flex items-center py-2">
