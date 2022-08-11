@@ -187,10 +187,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* <div className=' h-[16vw]' id="API3-widget">
-            <div className='text-[1.6vw] font-ProtoMono-Light '>User1 - API 3</div>
-            <div className='h-full bg-gray-300 p-4 border-2 border-black ' id='API3-widget-container'></div>
-          </div> */}
         </div>
         <div className='w-[26vw] h-auto' id="right-side">
           <div className='font-ProtoMono-SemiBold ' id='wallet'>

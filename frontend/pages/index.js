@@ -26,7 +26,7 @@ export default function Home() {
                     <div className='rounded-xl bg-blue-400 text-[1.2vw] text-center flex justify-center self-center py-2 w-[8vw] hover:bg' id="api-edit">API 3</div>
                     <div className='absolute w-[5.9vw] border-gray-400 border-b-2 top-8 left-[9.9rem]  '></div>
                     <div className='flex-col space-y-2 items-center justify-center absolute left-[16.2rem]   -bottom-12 border-gray-400 border-2 p-4 rounded-xl' id="owner-settings-inputs">
-                        <div className='flex space-x-7 items-center justify-center'>
+                        <div className='flex space-x-10 items-center justify-center'>
                             <span className='text-[1.2vw]'>Goal Monthly earning</span>
                             <input className='deposit-amt w-[50%] rounded-md border-blue-200 border-2 pl-2' placeholder='USD' />
                         </div>
@@ -38,6 +38,7 @@ export default function Home() {
                             <span className='text-[1.2vw]'>Payout wallet address</span>
                             <input className='deposit-amt w-[50%] rounded-md border-blue-200 border-2 pl-2'  placeholder='0xb89C33bE71c2aAd77d6712b1AD47274aD9fb7dcb'/>
                         </div>
+                        <button className='ml-[37vw]  rounded-lg text-[1.1vw] bg-blue-400 p-2 hover:bg-blue-600 hover:text-white'>Submit</button>
                     </div>
                 </div>
                 <div className=' rounded-xl ml-5 mr-20 pl-5  p-3'>
