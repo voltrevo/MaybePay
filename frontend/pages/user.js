@@ -239,9 +239,13 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className='h-[10vw] w-full' id="Graph">
+              <div className='h-[13vw] w-full' id="Graph">
                 <span>Graph</span>
-                <div className='bg-white h-full'>
+                <div className='bg-white h-full' style={{
+                  background: 'url(/static/expectedActual.png) center',
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                }}>
 
                 </div>
               </div>
