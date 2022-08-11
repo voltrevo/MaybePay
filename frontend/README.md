@@ -1,6 +1,6 @@
 # MaybePay Frontend
+Blockchain micropayments with no minimum size
 
-### Blockchain micropayments with no minimum size
 
 ### Clone this repository
 https://github.com/voltrevo/MaybePay.git
