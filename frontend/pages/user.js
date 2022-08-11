@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 import axios from "axios"
 import { ethers } from "ethers";
 import * as MaybePayLib from "../utils/MaybePayLib"
+import callMaybePayApi from '../utils/callMaybePayApi'
 
 const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com');
 
@@ -60,8 +61,8 @@ export default function Home() {
       // })
       // console.log(_res.data)
 
-      const res = await axios.get("/api/weather")
-      setWeather(res.data.result)
+      const res = await callMaybePayApi("/api/paidWeather", ethers.utils.parseEther('0.0001'))
+      setWeather(res.result)
     }
 
     const getNewsData = async () => {
