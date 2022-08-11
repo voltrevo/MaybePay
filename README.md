@@ -2,6 +2,8 @@
 
 *Blockchain micropayments with no minimum size*
 
+[![Demo video](./assets/video-icon.png)](https://www.youtube.com/watch?v=flhXOMp9hWI)
+
 ## Run the Frontend
 
 MaybePay is just on the polygon testnet for now and has hardcoded values
