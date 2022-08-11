@@ -24,6 +24,7 @@ export default function Home() {
   const [balance, setBalance] = useState()
   const [depositMsg, setDepositMsgReact] = useState()
   const [depositBalance, setDepositBalance] = useState()
+  const [chainUpdates, setChainUpdates] = useState(0)
 
   const setDepositMsg = (msg) => {
     if (msg instanceof Error) {
@@ -75,7 +76,9 @@ export default function Home() {
 
     getWeatherData()
     getNewsData()
+  }, [])
 
+  useEffect(() => {
     provider.getBalance(wallet.address).then(balance => {
       const ethBalance = Number(ethers.utils.formatEther(balance));
       setBalance(ethBalance);
@@ -87,26 +90,28 @@ export default function Home() {
       const ethDepositBalance = Number(ethers.utils.formatEther(depositBalance))
       setDepositBalance(ethDepositBalance)
     })
-  }, [])
+  }, [chainUpdates])
 
   const deposit = async (evt) => {
     try {
-      const dollarAmtText = evt.target.parentElement.querySelector('.deposit-amt').value;
+      const inputField = evt.target.parentElement.querySelector('.deposit-amt')
+      const dollarAmtText = inputField.value
       const dollarAmt = Number(dollarAmtText);
 
       if (!Number.isFinite(dollarAmt) || dollarAmtText.trim() === '') {
-        setDepositMsg(new Error(`Invalid deposit amount: "${dollarAmtText}"`));
-        return;
+        setDepositMsg(new Error(`Invalid deposit amount: "${dollarAmtText}"`))
+        return
       }
 
-      const ethAmt = dollarAmt / ethUsd;
+      const ethAmt = dollarAmt / ethUsd
 
+      inputField.value = ''
       setDepositMsg(`depositing $${dollarAmt.toFixed(2)} (=${ethAmt.toFixed(4)} ETH) ...`)
 
       const tx = {
         from: wallet.address,
         to: "0x78E0B95781634F6E993B088019FB761ed7Dc4593",
-        value: ethers.utils.parseEther(ethAmt.toString()),
+        value: ethers.utils.parseEther(ethAmt.toFixed(18)),
         nonce: provider.getTransactionCount(wallet.address, "latest"),
         gasLimit: ethers.utils.hexlify("0x100000"), // 100000
         gasPrice: provider.getGasPrice(),
@@ -118,6 +123,7 @@ export default function Home() {
       setDepositMsg('deposit submitted, waiting for confirmation...')
       await transaction.wait()
       setDepositMsg('deposit confirmed')
+      setChainUpdates(chainUpdates + 1)
     } catch (error) {
       setDepositMsg(error);
     }
