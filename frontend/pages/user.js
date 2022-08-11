@@ -71,13 +71,23 @@ export default function Home() {
     })
   }, [])
 
-  const deposit = async () => {
-    console.log('depositing...')
+  const deposit = async (evt) => {
+    const dollarAmtText = evt.target.parentElement.querySelector('.deposit-amt').value;
+    const dollarAmt = Number(dollarAmtText);
+
+    if (!Number.isFinite(dollarAmt)) {
+      console.error(`Invalid deposit amount: "${dollarAmtText}"`);
+      return;
+    }
+
+    const ethAmt = dollarAmt / ethUsd;
+
+    console.log(`depositing $${dollarAmt.toFixed(2)} (=${ethAmt.toFixed(4)} ETH) ...`)
 
     const tx = {
       from: wallet.address,
       to: "0x78E0B95781634F6E993B088019FB761ed7Dc4593",
-      value: ethers.utils.parseEther("0.02"),
+      value: ethers.utils.parseEther(ethAmt.toString()),
       nonce: provider.getTransactionCount(wallet.address, "latest"),
       gasLimit: ethers.utils.hexlify("0x100000"), // 100000
       gasPrice: provider.getGasPrice(),
@@ -182,8 +192,8 @@ export default function Home() {
               <div className='w-full flex-col py-4' id="deposit input">
                 <span className='block'>Amount to MaybePay Deposit</span>
                 <div className='flex space-x-3'>
-                  <input className='w-full rounded-md border-blue-200 border-2 p-1'></input>
-                  <button onClick={() => deposit()} className='rounded-lg text-sm bg-blue-300 p-2 hover:bg-blue-600 hover:text-white'>Deposit</button>
+                  <input className='deposit-amt w-full rounded-md border-blue-200 border-2 p-1'></input>
+                  <button onClick={(evt) => deposit(evt)} className='rounded-lg text-sm bg-blue-300 p-2 hover:bg-blue-600 hover:text-white'>Deposit</button>
                 </div>
               </div>
               <div class="flex items-center py-2">
