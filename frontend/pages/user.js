@@ -16,6 +16,8 @@ const wallet = new ethers.Wallet(
   provider,
 );
 
+const ethUsd = 1853;
+
 export default function Home() {
   const [weather, setWeather] = useState([])
   const [news, setNews] = useState([])
@@ -69,21 +71,24 @@ export default function Home() {
     })
   }, [])
 
-  const deposit = () => {
+  const deposit = async () => {
+    console.log('depositing...')
+
     const tx = {
       from: wallet.address,
       to: "0x78E0B95781634F6E993B088019FB761ed7Dc4593",
-      value: ethers.utils.parseEther("0.1"),
+      value: ethers.utils.parseEther("0.02"),
       nonce: provider.getTransactionCount(wallet.address, "latest"),
       gasLimit: ethers.utils.hexlify("0x100000"), // 100000
       gasPrice: provider.getGasPrice(),
     }
 
     let walletSigner = wallet.connect(provider)
-    walletSigner.sendTransaction(tx).then((transaction) => {
-      console.dir(transaction)
-      alert("Send finished!")
-    })
+    const transaction = await walletSigner.sendTransaction(tx)
+    console.dir(transaction)
+    console.log('deposit submitted, waiting for confirmation...')
+    await transaction.wait()
+    console.log('deposit confirmed')
   }
 
   return (
@@ -163,7 +168,7 @@ export default function Home() {
                     <div>
                       <div className=' text-center'>Wallet</div><div className=' text-center'>Current Balance</div>
                     </div>
-                    <div className='text-center text-[1.3vw] pt-2'>$ {balance && (0.8887 * balance).toFixed(2)}</div>
+                    <div className='text-center text-[1.3vw] pt-2'>$ {balance && (ethUsd * balance).toFixed(2)}</div>
                   </div>
                   <div className='border-2 border-gray-300  h-[4vw] w-1' id="divider"></div>
                   <div className=' flex-col justify-center items-center'>
