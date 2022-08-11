@@ -2,6 +2,11 @@
 
 *Blockchain micropayments with no minimum size*
 
+## Deploying the Contracts
+
+1. Compile the smart contracts: `yarn hardhat compile`
+2. Deploy the smart contracts to Polygon: `yarn hardhat run scripts/deploy.ts --network mumbai`
+
 ## How it Works
 
 ```
