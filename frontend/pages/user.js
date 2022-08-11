@@ -164,7 +164,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className=' h-[16vw]' id="API2-widget">
+          <div className=' h-[35vw]' id="API2-widget">
             <div className='text-[1.6vw] font-ProtoMono-Light '>User1 - API 2 (News Widget)</div>
             <div className='h-full bg-white border-2 border-black' id='API3-widget-container'>
               <div className='h-[1.6vw] pt-2 bg-black' id="weather-top-menu">
@@ -179,11 +179,19 @@ export default function Home() {
                   <div id="extension"></div>
                 </div>
               </div>
-              <div id="weather-contents" className="mt-10 ml-5 flex w-[100%] justify-center items-center">
-                <div className="mr-10">
-                  <p className="text-2xl font-ProtoMono-Light">{news.length !== 0 ? news[0].title : "Loading..."}</p>
-                  <p className="text-lg font-ProtoMono-Light">{news.length !== 0 ? news[0].description : "Loading..."}</p>
+              <div id="news-contents" className="mt-10 ml-5 flex w-[100%] justify-center items-center">
+              <div className='flex-col w-full h-[50%]'>
+              <div id="tesla" className='bg-white h-[20vw] w-[96%] mb-10' style={{
+                  background: 'url(/static/tesla.png) center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                }}>
                 </div>
+                  <div className="mr-10">
+                    <p className="text-[1.2vw] font-ProtoMono-Light font-extrabold  mb-5">{news.length !== 0 ? news[0].title : "Loading..."}</p>
+                    <p className="text-[0.8vw] font-ProtoMono-Light mb-5">{news.length !== 0 ? news[0].description : "Loading..."}</p>
+                  </div>
+              </div>
               </div>
             </div>
           </div>
@@ -255,7 +263,6 @@ export default function Home() {
                   backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
                 }}>
-
                 </div>
               </div>
             </div>
