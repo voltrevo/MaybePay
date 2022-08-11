@@ -223,19 +223,19 @@ export default function Home() {
                 <span className='container'>Outgoing Payment List</span>
                 <div className='bg-white h-auto flex-col px-1 py-3 space-y-3' id="payment-container">
                   <div className='flex justify-between bg-slate-200 '>
-                    <span className='block'>Today</span><span className='block'> - $ 3.25</span>
+                    <span className='block'>Today</span><span className='block'> - 25.12¢</span>
                   </div>
                   <div className='flex justify-between'>
-                    <span className='block'>API 1</span><span className='block'>$ 0.05</span>
+                    <span className='block'>API 1</span><span className='block'>0.05¢</span>
                   </div>
                   <div className='flex justify-between bg-slate-200'>
-                    <span className='block'>API 2</span><span className='block'>$ 0.15</span>
+                    <span className='block'>API 2</span><span className='block'>0.15¢</span>
                   </div>
                   <div className='flex justify-between'>
-                    <span className='block'>API 1</span><span className='block'>$ 1.03</span>
+                    <span className='block'>API 1</span><span className='block'>1.03¢</span>
                   </div>
                   <div className='flex justify-between bg-slate-200'>
-                    <span className='block'>API 1</span><span className='block'>$ 0.5</span>
+                    <span className='block'>API 1</span><span className='block'>0.50¢</span>
                   </div>
                 </div>
               </div>
