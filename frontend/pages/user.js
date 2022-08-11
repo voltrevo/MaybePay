@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import axios from "axios"
 import { ethers } from "ethers";
-import { request, pay } from "../utils/MaybePayLib"
+import * as MaybePayLib from "../utils/MaybePayLib"
 
 const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com');
 
@@ -38,7 +38,7 @@ export default function Home() {
   useEffect(() => {
     const getWeatherData = async () => {
       const parsedEth = ethers.utils.parseEther('0.000001')
-      const paymentRequest = request(
+      const paymentRequest = MaybePayLib.request(
         parsedEth,
         wallet.address,
         80001,
@@ -46,7 +46,7 @@ export default function Home() {
         ethers.BigNumber.from(5),
       )
 
-      const payment = await pay(
+      const payment = await MaybePayLib.pay(
         paymentRequest.message,
         ethers.utils.parseEther('0.1'),
         wallet,
@@ -76,10 +76,16 @@ export default function Home() {
     getWeatherData()
     getNewsData()
 
-    provider.getBalance(wallet.address).then(async balance => {
-      console.log(wallet.address)
-      const ethBalance = Number(ethers.utils.formatEther(await provider.getBalance(wallet.address)));
+    provider.getBalance(wallet.address).then(balance => {
+      const ethBalance = Number(ethers.utils.formatEther(balance));
       setBalance(ethBalance);
+    })
+
+    const maybePay = MaybePayLib.connect("0x78E0B95781634F6E993B088019FB761ed7Dc4593", wallet)
+
+    maybePay.balances(wallet.address).then(depositBalance => {
+      const ethDepositBalance = Number(ethers.utils.formatEther(depositBalance))
+      setDepositBalance(ethDepositBalance)
     })
   }, [])
 
@@ -201,7 +207,7 @@ export default function Home() {
                     <div>
                       <div className=' text-center'>MaybePay</div><div className='text-center'>Deposit Balance</div>
                     </div>
-                    <div className='text-center text-[1.3vw] pt-2'>$ 10</div>
+                    <div className='text-center text-[1.3vw] pt-2'>$ {depositBalance && (ethUsd * depositBalance).toFixed(2)}</div>
                   </div>
                 </div>
               </div>
