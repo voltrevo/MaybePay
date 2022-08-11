@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import axios from "axios"
 import { ethers } from "ethers";
-import { request, pay } from "../utils/index"
+import { request, pay } from "../utils/MaybePayLib"
 
 const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com');
 
@@ -23,6 +23,7 @@ export default function Home() {
   const [news, setNews] = useState([])
   const [balance, setBalance] = useState()
   const [depositMsg, setDepositMsgReact] = useState()
+  const [depositBalance, setDepositBalance] = useState()
 
   const setDepositMsg = (msg) => {
     if (msg instanceof Error) {
@@ -52,11 +53,11 @@ export default function Home() {
         ethers.BigNumber.from(2),
       )
 
-      const _res = await axios.post("/api/to_pay_or_not_to_pay", {
-        payment,
-        paymentRequest
-      })
-      console.log(_res.data)
+      // const _res = await axios.post("/api/to_pay_or_not_to_pay", {
+      //   payment,
+      //   paymentRequest
+      // })
+      // console.log(_res.data)
 
       const res = await axios.get("/api/weather")
       setWeather(res.data.result)

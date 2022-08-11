@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import abi from "../../abi"
-import { check } from "../../utils/server"
+import { check } from "../../utils/MaybePayLib"
 import { ethers } from "ethers"
 
 export default async function handler(req, res) {
