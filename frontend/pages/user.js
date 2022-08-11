@@ -166,7 +166,7 @@ export default function Home() {
           </div>
           <div className=' h-[16vw]' id="API2-widget">
             <div className='text-[1.6vw] font-ProtoMono-Light '>User1 - API 2 (News Widget)</div>
-            <div className='h-full bg-gray-300 border-2 border-black' id='API3-widget-container'>
+            <div className='h-full bg-white border-2 border-black' id='API3-widget-container'>
               <div className='h-[1.6vw] pt-2 bg-black' id="weather-top-menu">
                 <div className='flex h-full' id="tab">
                   <div className='rounded-t-lg w-[20%]' id="tab-1"></div>
@@ -187,10 +187,10 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className=' h-[16vw]' id="API3-widget">
+          {/* <div className=' h-[16vw]' id="API3-widget">
             <div className='text-[1.6vw] font-ProtoMono-Light '>User1 - API 3</div>
             <div className='h-full bg-gray-300 p-4 border-2 border-black ' id='API3-widget-container'></div>
-          </div>
+          </div> */}
         </div>
         <div className='w-[26vw] h-auto' id="right-side">
           <div className='font-ProtoMono-SemiBold ' id='wallet'>
