@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import axios from "axios"
 import { ethers } from "ethers";
@@ -22,6 +22,17 @@ export default function Home() {
   const [weather, setWeather] = useState([])
   const [news, setNews] = useState([])
   const [balance, setBalance] = useState()
+  const [depositMsg, setDepositMsgReact] = useState()
+
+  const setDepositMsg = (msg) => {
+    if (msg instanceof Error) {
+      console.error(msg)
+      setDepositMsgReact(msg.message)
+    } else {
+      setDepositMsgReact(msg)
+      console.log(msg)
+    }
+  }
 
   useEffect(() => {
     const getWeatherData = async () => {
@@ -72,33 +83,37 @@ export default function Home() {
   }, [])
 
   const deposit = async (evt) => {
-    const dollarAmtText = evt.target.parentElement.querySelector('.deposit-amt').value;
-    const dollarAmt = Number(dollarAmtText);
+    try {
+      const dollarAmtText = evt.target.parentElement.querySelector('.deposit-amt').value;
+      const dollarAmt = Number(dollarAmtText);
 
-    if (!Number.isFinite(dollarAmt)) {
-      console.error(`Invalid deposit amount: "${dollarAmtText}"`);
-      return;
+      if (!Number.isFinite(dollarAmt) || dollarAmtText.trim() === '') {
+        setDepositMsg(new Error(`Invalid deposit amount: "${dollarAmtText}"`));
+        return;
+      }
+
+      const ethAmt = dollarAmt / ethUsd;
+
+      setDepositMsg(`depositing $${dollarAmt.toFixed(2)} (=${ethAmt.toFixed(4)} ETH) ...`)
+
+      const tx = {
+        from: wallet.address,
+        to: "0x78E0B95781634F6E993B088019FB761ed7Dc4593",
+        value: ethers.utils.parseEther(ethAmt.toString()),
+        nonce: provider.getTransactionCount(wallet.address, "latest"),
+        gasLimit: ethers.utils.hexlify("0x100000"), // 100000
+        gasPrice: provider.getGasPrice(),
+      }
+
+      let walletSigner = wallet.connect(provider)
+      const transaction = await walletSigner.sendTransaction(tx)
+      console.dir(transaction)
+      setDepositMsg('deposit submitted, waiting for confirmation...')
+      await transaction.wait()
+      setDepositMsg('deposit confirmed')
+    } catch (error) {
+      setDepositMsg(error);
     }
-
-    const ethAmt = dollarAmt / ethUsd;
-
-    console.log(`depositing $${dollarAmt.toFixed(2)} (=${ethAmt.toFixed(4)} ETH) ...`)
-
-    const tx = {
-      from: wallet.address,
-      to: "0x78E0B95781634F6E993B088019FB761ed7Dc4593",
-      value: ethers.utils.parseEther(ethAmt.toString()),
-      nonce: provider.getTransactionCount(wallet.address, "latest"),
-      gasLimit: ethers.utils.hexlify("0x100000"), // 100000
-      gasPrice: provider.getGasPrice(),
-    }
-
-    let walletSigner = wallet.connect(provider)
-    const transaction = await walletSigner.sendTransaction(tx)
-    console.dir(transaction)
-    console.log('deposit submitted, waiting for confirmation...')
-    await transaction.wait()
-    console.log('deposit confirmed')
   }
 
   return (
@@ -195,10 +210,13 @@ export default function Home() {
                   <input className='deposit-amt w-full rounded-md border-blue-200 border-2 p-1'></input>
                   <button onClick={(evt) => deposit(evt)} className='rounded-lg text-sm bg-blue-300 p-2 hover:bg-blue-600 hover:text-white'>Deposit</button>
                 </div>
+                <div>
+                  {depositMsg}
+                </div>
               </div>
               <div class="flex items-center py-2">
                 <input checked id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500  focus:ring-2 " />
-                <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900 ">Auto approve minimum threshold - $ 0.20</label>
+                <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900 ">Auto approve minimum threshold - $ 0.20/hour</label>
               </div>
               <div className='py-3' id="Outgoing-Payment-List">
                 <span className='container'>Outgoing Payment List</span>
