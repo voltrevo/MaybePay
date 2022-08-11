@@ -68,12 +68,12 @@ export default function Home() {
                    </div>
                    <div class="grid grid-rows-6 gap-4 text-center text-[0.9vw]">
                         <span className='text-[1.2vw]'>AMOUNT</span>
-                        <span>$ 3.8</span>
-                        <span>$ 0.3 </span>
-                        <span>$ 1.3</span>
-                        <span>$ 4.1</span>
-                        <span>$ 2.2</span>
-                        <span>$ 6.0 </span>
+                        <span>0.38¢</span>
+                        <span>0.03¢ </span>
+                        <span>0.13¢</span>
+                        <span>0.41¢</span>
+                        <span>0.22¢</span>
+                        <span>0.60¢</span>
                    </div>
                    <div class="grid grid-rows-6 gap-4 text-center text-[0.7vw]">
                         <span className='text-[1.2vw]'>FROM</span>
