@@ -2,6 +2,13 @@
 
 *Blockchain micropayments with no minimum size*
 
+## Run the Frontend
+
+MaybePay is just on the polygon testnet for now and has hardcoded values
+allowing you to run the frontend without any additional setup.
+
+1. Follow the instructions at [/frontend/README.md](./frontend/README.md)
+
 ## Deploying the Contracts
 
 1. Compile the smart contracts: `yarn hardhat compile`

@@ -5,14 +5,14 @@ Blockchain micropayments with no minimum size
 ### Clone this repository
 > https://github.com/voltrevo/MaybePay.git
 
+### Switch to frontend directory
+> cd frontend
 
 ### Install the dependencies
 > npm install
 
-
 ### Run the local
-> 1) cd frontend
-> 2) npm run dev
+> npm run dev
 
 
 ### Main Page - Owner Setting Page
